@@ -1,0 +1,22 @@
+body {
+    background: #347794;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    min-height: 100%;
+}
+
+.form__field {
+    padding: 3px 10px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.text {
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
+    font-weight: 600;
+}
