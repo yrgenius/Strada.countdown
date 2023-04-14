@@ -1,4 +1,5 @@
-import { formatDistance, subDays } from "date-fns";
+import { formatDistanceStrict, format, add } from "date-fns";
+import { ru } from "date-fns/locale";
 
 const input = document.querySelector('.form__input');
 const button = document.querySelector('.form__btn');
@@ -9,10 +10,11 @@ button.addEventListener('click', buttonHandler);
 function buttonHandler() {
     event.preventDefault();
 
-    const selectDate = input.value | Date.now();
-    out.textContent = selectDate;
+    const now = new Date();
+    const inputValue = (!input.value)
+        ? format(now, 'yyyy-MM-dd')
+        : input.value;
+    const dateDiff = formatDistanceStrict(new Date(...inputValue.split('-')), now, { locale: ru });
 
-
-
-    console.log(selectDate); //del
+    out.textContent = dateDiff;
 }
