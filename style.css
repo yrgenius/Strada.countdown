@@ -8,10 +8,19 @@ body {
     min-height: 100%;
 }
 
+.form {
+    display: flex;
+    justify-content: center;
+}
+
 .form__field {
     padding: 3px 10px;
     font-weight: 600;
     font-size: 20px;
+}
+
+.form__field:last-child {
+    margin-left: 10px;
 }
 
 .text {
