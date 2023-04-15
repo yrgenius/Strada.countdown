@@ -1,6 +1,7 @@
 import { formatDistanceToNowStrict, format, add, differenceInMilliseconds, startOfTomorrow } from "date-fns";
 import { ru } from "date-fns/locale";
 
+
 const input = document.querySelector('.form__input');
 const button = document.querySelector('.form__btn');
 const out = document.querySelector('.text__out');
@@ -8,9 +9,10 @@ const countdownText = document.querySelector('.text__countdown');
 let runCountdown = false;
 
 button.addEventListener('click', countdown);
-input.addEventListener('change', buttonHandler);
+button.addEventListener('click', countdown);
+input.addEventListener('change', showDistance);
 
-function buttonHandler() {
+function showDistance() {
     event.preventDefault();
 
     const now = new Date();
@@ -26,28 +28,29 @@ function buttonHandler() {
 
 function countdown() {
     if (!runCountdown) {
-        runCountdown = !runCountdown;
-        let timer = setInterval(go, 1000);
+        let timer = setInterval(function () {
+            const now = add(new Date(), { days: 1 });
+            const date = getInputValue();
+            const count = differenceInMilliseconds(date, now);
+            const days = Math.floor(count / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((count % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((count % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((count % (1000 * 60)) / 1000);
+
+            if (count > 0) {
+                countdownText.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+            else {
+                clearInterval(timer);
+            }
+        }, 1000);
     }
-
-}
-
-function go() {
-    const now = add(new Date(), { days: 1 });
-    const date = getInputValue();
-    const count = differenceInMilliseconds(date, now);
-    const hours = Math.round((count / (1000 * 60)) % 24);
-    const minutes = Math.round((count / 60000) % 60);
-    const seconds = Math.round((count % 60000 / 1000));
-    if (count > 0) countdownText.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
 function getInputValue() {
     const now = new Date();
-    const inputValue = (!input.value)
-        ? format(now, 'yyyy-MM-dd')
-        : input.value;
-    return add(new Date(inputValue), { month: 1 });
+    const inputValue = input.value || format(now, 'yyyy-MM-dd');
+    return (add(new Date(inputValue), { month: 1 }));
 }
 
 function concatString(year, day, hour) {
